@@ -1,6 +1,7 @@
 package io.dotlottie.sample
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.dotlottie.loader.DotLottieLoader
@@ -21,10 +22,22 @@ class MainActivity : AppCompatActivity() {
 
         textTitle.setText(R.string.loading_anim)
 
-        when(radiogroupAnimationType.checkedRadioButtonId) {
-            R.id.option_asset -> DotLottieLoader.with(this).fromAsset(getSelectedItemAsset())
-            R.id.option_network -> DotLottieLoader.with(this).fromUrl(getSelectedItemURL())
-            else -> DotLottieLoader.with(this).fromRaw(getSelectedRawRes())
+        when(radiogroupSource.checkedRadioButtonId) {
+            R.id.option_asset -> {
+                val item = getSelectedItemAsset()
+                Log.d("DotLottie", "Loading ASSET with ${item}")
+                DotLottieLoader.with(this).fromAsset(item)
+            }
+            R.id.option_network -> {
+                val item = getSelectedItemURL()
+                Log.d("DotLottie", "Loading URL with ${item}")
+                DotLottieLoader.with(this).fromUrl(item)
+            }
+            else -> {
+                val item = getSelectedRawRes()
+                Log.d("DotLottie", "Loading RAW with ${item}")
+                DotLottieLoader.with(this).fromRaw(item)
+            }
         }.load(object: DotLottieResult {
             override fun onSuccess() {
                 textTitle.setText(R.string.select_option)
@@ -38,19 +51,19 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getSelectedItemURL() = when (radiogroupSource.checkedRadioButtonId){
+    private fun getSelectedItemURL() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> "https://dotlottie.io/sample_files/animation-external-image.lottie"
         R.id.anim_internal -> "https://dotlottie.io/sample_files/animation-inline-image.lottie"
         else -> "https://dotlottie.io/sample_files/animation.lottie"
     }
 
-    private fun getSelectedRawRes() = when (radiogroupSource.checkedRadioButtonId){
+    private fun getSelectedRawRes() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> R.raw.animation_external_image
         R.id.anim_internal -> R.raw.animation_inline_image
         else -> R.raw.animation
     }
 
-    private fun getSelectedItemAsset() = when (radiogroupSource.checkedRadioButtonId){
+    private fun getSelectedItemAsset() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> "animation_external_image.lottie"
         R.id.anim_internal -> "animation_inline_image.lottie"
         else -> "animation.lottie"
