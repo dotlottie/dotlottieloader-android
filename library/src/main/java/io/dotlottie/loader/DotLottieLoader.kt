@@ -1,16 +1,16 @@
 package io.dotlottie.loader
 
 import android.content.Context
+import android.content.res.AssetFileDescriptor
 import androidx.annotation.RawRes
 import io.dotlottie.loader.models.DotLottieResult
 import okhttp3.OkHttpClient
-import java.lang.IllegalArgumentException
 
 /**
  * DotLottieLoader handles loading dotLottie files from
  * network, or app resources (raw or assets)
  */
-public class DotLottieLoader private constructor(private val context: Context) {
+class DotLottieLoader private constructor(private val context: Context) {
 
     /*
      * internal state holder for load state
@@ -29,11 +29,35 @@ public class DotLottieLoader private constructor(private val context: Context) {
 
 
     fun load(listener: DotLottieResult) {
-        if(loadSpec!=null) {
-
+        if(loadSpec?.raw!=null || loadSpec?.asset!=null) {
+            loadInternalFileSpec(loadSpec?.raw, loadSpec?.asset, listener)
+        } else if(loadSpec?.url!=null) {
+            //todo: network
+            //todo: cache configs
         } else {
             listener.onError(IllegalArgumentException("No loadable targets specified"))
         }
+    }
+
+
+    /**
+     * open and parse app internal resources
+     */
+    private fun loadInternalFileSpec(@RawRes raw: Int?, asset: String?, listener: DotLottieResult) {
+        val fd: AssetFileDescriptor
+
+        try {
+            // try init the file description or fail if both are null
+            when {
+                raw != null -> fd = context.resources.openRawResourceFd(raw)
+                asset != null -> fd = context.assets.openFd(asset)
+                else -> listener.onError(IllegalArgumentException())
+            }
+
+        } catch (e: Exception) {
+            listener.onError(e)
+        }
+
     }
 
 
