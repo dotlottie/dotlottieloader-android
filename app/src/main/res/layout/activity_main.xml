@@ -1,9 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:text="@string/select_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        tools:background="@color/colorPrimary"
+        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <RadioGroup
+        android:id="@+id/radiogroupAnimationType"
+        android:orientation="vertical"
+        tools:ignore="missingConstraints"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/anim_default"
+            android:text="@string/option_animation"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/anim_external"
+            android:text="@string/option_external"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/anim_internal"
+            android:text="@string/option_internal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
+
+    <RadioGroup
+        android:id="@+id/radiogroupSource"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        tools:ignore="missingConstraints"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/option_raw"
+            android:text="@string/option_raw"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/option_asset"
+            android:text="@string/option_asset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/option_network"
+            android:text="@string/option_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp"
+        app:flow_horizontalStyle="spread"
+        app:layout_constraintBottom_toTopOf="@id/buttonLoad"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:constraint_referenced_ids="radiogroupAnimationType, radiogroupSource" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonLoad"
+        style="@style/Widget.AppCompat.Button.Colored"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/load" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

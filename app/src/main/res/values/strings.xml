@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">DotLottie Sample</string>
+    <string name="option_animation">Default Animation</string>
+    <string name="option_external">External Images</string>
+    <string name="option_internal">Inline Images</string>
+    <string name="load">Load</string>
+    <string name="option_raw">Raw Res</string>
+    <string name="option_asset">Assets</string>
+    <string name="option_network">Network</string>
+    <string name="select_option">Select Option</string>
 </resources>
