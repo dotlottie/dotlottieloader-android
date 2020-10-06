@@ -1,10 +1,10 @@
 package io.dotlottie.loader
 
 import android.content.Context
-import android.content.res.AssetFileDescriptor
 import androidx.annotation.RawRes
 import io.dotlottie.loader.models.DotLottieResult
 import okhttp3.OkHttpClient
+import java.io.InputStream
 
 /**
  * DotLottieLoader handles loading dotLottie files from
@@ -30,7 +30,9 @@ class DotLottieLoader private constructor(private val context: Context) {
 
     fun load(listener: DotLottieResult) {
         if(loadSpec?.raw!=null || loadSpec?.asset!=null) {
+
             loadInternalFileSpec(loadSpec?.raw, loadSpec?.asset, listener)
+
         } else if(loadSpec?.url!=null) {
             //todo: network
             //todo: cache configs
@@ -44,13 +46,13 @@ class DotLottieLoader private constructor(private val context: Context) {
      * open and parse app internal resources
      */
     private fun loadInternalFileSpec(@RawRes raw: Int?, asset: String?, listener: DotLottieResult) {
-        val fd: AssetFileDescriptor
+        val fd: InputStream
 
         try {
             // try init the file description or fail if both are null
             when {
-                raw != null -> fd = context.resources.openRawResourceFd(raw)
-                asset != null -> fd = context.assets.openFd(asset)
+                raw != null -> fd = context.resources.openRawResource(raw)
+                asset != null -> fd = context.assets.open(asset)
                 else -> listener.onError(IllegalArgumentException())
             }
 
