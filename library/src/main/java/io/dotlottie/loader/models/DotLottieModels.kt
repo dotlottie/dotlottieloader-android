@@ -24,3 +24,16 @@ data class ManifestAnimation(
     val themeColor: String?,
     val loop: Boolean = false
 )
+
+/**
+ * A DotLottie file
+ */
+data class DotLottie(
+    val manifest: Manifest?
+    //animations
+    //images
+    //fonts
+    //js
+    //resources
+    //previews
+)
