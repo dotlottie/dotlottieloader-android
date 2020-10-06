@@ -8,4 +8,6 @@
     <string name="option_asset">Assets</string>
     <string name="option_network">Network</string>
     <string name="select_option">Select Option</string>
+    <string name="loading_anim">Loading Animation</string>
+    <string name="error_loading">Error while loading animation</string>
 </resources>
