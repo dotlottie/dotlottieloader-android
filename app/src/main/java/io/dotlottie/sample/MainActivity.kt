@@ -8,6 +8,8 @@ import io.dotlottie.loader.DotLottieLoader
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieResult
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         }.load(object: DotLottieResult {
             override fun onSuccess(result: DotLottie) {
                 textTitle.setText(R.string.select_option)
+                result.animations?.entries.first()?.let {
+                    val input = ByteArrayInputStream(it.value)
+
+                    animationView.setAnimation(input as InputStream, null)
+                    animationView.playAnimation()
+
+                }
                 Log.d("DotLottie", "Parsed ${result}")
 
             }

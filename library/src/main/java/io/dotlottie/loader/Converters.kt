@@ -17,11 +17,15 @@ import java.util.zip.ZipInputStream
 
 class DefaultDotLottieConverter: DotLottieConverter {
 
+    private fun String.lastSegmentName() = split("/").last()
+    private fun String.withoutExt() = split(".").first()
+
 
 
     override fun parseZipInputStream(inputStream: ZipInputStream): DotLottie? {
 
         var manifest: Manifest? = null
+        var animations: HashMap<String, ByteArray> = HashMap()
 
         inputStream.use {
             var entry: ZipEntry? = it.nextEntry
@@ -31,6 +35,8 @@ class DefaultDotLottieConverter: DotLottieConverter {
                 val name = entry.name
                 if(name.equals("manifest.json", ignoreCase = true)) {
                     manifest = manifestAdapter.fromJson(JsonReader.of(it.source().buffer()))
+                } else if(name.startsWith("animations/")) {
+                    animations[name.lastSegmentName().withoutExt()] = it.readBytes()
                 }
 
                 it.closeEntry()
@@ -39,7 +45,8 @@ class DefaultDotLottieConverter: DotLottieConverter {
         }
 
         return DotLottie(
-            manifest
+            manifest,
+            animations
         )
 
     }
