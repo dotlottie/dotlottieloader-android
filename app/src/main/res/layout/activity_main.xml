@@ -19,6 +19,7 @@
         android:layout_height="wrap_content" />
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
         app:layout_constraintTop_toBottomOf="@+id/textTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

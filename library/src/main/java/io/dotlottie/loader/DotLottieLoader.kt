@@ -2,9 +2,13 @@ package io.dotlottie.loader
 
 import android.content.Context
 import androidx.annotation.RawRes
+import io.dotlottie.loader.models.DotLottie
+import io.dotlottie.loader.models.DotLottieConverter
 import io.dotlottie.loader.models.DotLottieResult
 import okhttp3.OkHttpClient
 import java.io.InputStream
+import java.lang.Exception
+import java.util.zip.ZipInputStream
 
 /**
  * DotLottieLoader handles loading dotLottie files from
@@ -26,18 +30,34 @@ class DotLottieLoader private constructor(private val context: Context) {
      */
     private var overrideClient: OkHttpClient? = null
     private var loadSpec: LOADSPEC? = null
+    private var dlConverter: DotLottieConverter = DefaultDotLottieConverter()
 
 
     fun load(listener: DotLottieResult) {
-        if(loadSpec?.raw!=null || loadSpec?.asset!=null) {
 
-            loadInternalFileSpec(loadSpec?.raw, loadSpec?.asset, listener)
+        try {
 
-        } else if(loadSpec?.url!=null) {
-            //todo: network
-            //todo: cache configs
-        } else {
-            listener.onError(IllegalArgumentException("No loadable targets specified"))
+            var file: DotLottie? = null
+
+            if (loadSpec?.raw != null || loadSpec?.asset != null) {
+                file = parseResFileSpec(loadSpec?.raw, loadSpec?.asset)
+
+            } else if (loadSpec?.url != null) {
+                //todo: network
+                //todo: cache configs
+            } else {
+                listener.onError(IllegalArgumentException("No loadable targets specified"))
+            }
+
+            // return the dotlottie
+            if(file!=null) {
+                listener.onSuccess(file)
+            } else {
+                listener.onError(IllegalArgumentException("Error parsing input"))
+            }
+
+        } catch (e: Exception) {
+            listener.onError(e)
         }
     }
 
@@ -45,21 +65,20 @@ class DotLottieLoader private constructor(private val context: Context) {
     /**
      * open and parse app internal resources
      */
-    private fun loadInternalFileSpec(@RawRes raw: Int?, asset: String?, listener: DotLottieResult) {
-        val fd: InputStream
-
-        try {
-            // try init the file description or fail if both are null
-            when {
-                raw != null -> fd = context.resources.openRawResource(raw)
-                asset != null -> fd = context.assets.open(asset)
-                else -> listener.onError(IllegalArgumentException())
-            }
-
-        } catch (e: Exception) {
-            listener.onError(e)
+    private fun parseResFileSpec(@RawRes raw: Int?, asset: String?): DotLottie? =
+        when (getResInputStream(raw, asset).isZipCompressed()) {
+            true -> dlConverter.parseZipInputStream(ZipInputStream(getResInputStream(raw,asset)))
+            false -> dlConverter.parseFileInputStream(getResInputStream(raw,asset))
         }
 
+
+    /**
+     * get inputstream for internal resource file
+     */
+    private fun getResInputStream(@RawRes raw: Int?, asset: String?): InputStream = when {
+        raw != null -> context.resources.openRawResource(raw)
+        asset != null -> context.assets.open(asset)
+        else -> throw IllegalArgumentException()
     }
 
 
@@ -75,6 +94,13 @@ class DotLottieLoader private constructor(private val context: Context) {
         overrideClient = client
     }
 
+
+    /**
+     * set a custom DotLottieConverter
+     */
+    fun setConverter(converter: DotLottieConverter) {
+        dlConverter = converter
+    }
 
     /**
      * loads animation from assets

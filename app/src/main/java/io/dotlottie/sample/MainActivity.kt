@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.dotlottie.loader.DotLottieLoader
+import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieResult
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -39,8 +40,10 @@ class MainActivity : AppCompatActivity() {
                 DotLottieLoader.with(this).fromRaw(item)
             }
         }.load(object: DotLottieResult {
-            override fun onSuccess() {
+            override fun onSuccess(result: DotLottie) {
                 textTitle.setText(R.string.select_option)
+                Log.d("DotLottie", "Parsed ${result}")
+
             }
 
             override fun onError(throwable: Throwable) {
