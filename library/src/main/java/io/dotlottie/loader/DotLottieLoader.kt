@@ -5,6 +5,7 @@ import androidx.annotation.RawRes
 import io.dotlottie.loader.loaders.AssetLoader
 import io.dotlottie.loader.loaders.NetworkLoader
 import io.dotlottie.loader.loaders.ResLoader
+import io.dotlottie.loader.models.DotLottieConfig
 
 /**
  * Factory method to build a loader stack
@@ -41,11 +42,23 @@ class DotLottieLoader private constructor(private val context: Context) {
 
     companion object {
 
+        internal var globalConfig: DotLottieConfig = DotLottieConfig()
+
         /**
          * Factory method to get an instance of the loader
          * @param context context for this instantiation
          */
-        fun with(context: Context) = DotLottieLoader(context)
+        @JvmStatic
+        fun with(context: Context):DotLottieLoader = DotLottieLoader(context)
+
+        /**
+         * Exposed setter to alter the global configuration.
+         * This can be different from the call specific
+         * configurations
+         */
+        fun setConfig(configuration: DotLottieConfig) {
+            globalConfig = configuration
+        }
 
     }
 }

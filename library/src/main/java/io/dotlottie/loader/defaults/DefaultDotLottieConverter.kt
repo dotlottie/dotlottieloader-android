@@ -1,4 +1,4 @@
-package io.dotlottie.loader.converters
+package io.dotlottie.loader.defaults
 
 import com.squareup.moshi.JsonReader
 import io.dotlottie.loader.DotLottieConverter
