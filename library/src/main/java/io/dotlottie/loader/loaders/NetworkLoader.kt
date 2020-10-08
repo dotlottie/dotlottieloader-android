@@ -8,11 +8,7 @@ import io.dotlottie.loader.models.DotLottie
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.gildor.coroutines.okhttp.await
-import java.io.BufferedInputStream
-import java.io.File
 import java.io.IOException
-import java.io.InputStream
-import java.lang.IllegalArgumentException
 
 class NetworkLoader(context: Context, private val url: String): AbstractLoader(context) {
 

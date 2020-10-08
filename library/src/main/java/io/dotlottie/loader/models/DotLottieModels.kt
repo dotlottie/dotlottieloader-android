@@ -46,8 +46,8 @@ data class ManifestAnimation(
 @JsonClass(generateAdapter = true)
 data class DotLottie(
     val manifest: Manifest?,
-    val animations: Map<String, ByteArray>
-    //images
+    val animations: Map<String, ByteArray>,
+    val images: Map<String, ByteArray>
     //fonts
     //js
     //resources

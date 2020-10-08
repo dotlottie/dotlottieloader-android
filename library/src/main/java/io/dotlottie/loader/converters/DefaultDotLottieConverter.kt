@@ -1,10 +1,12 @@
-package io.dotlottie.loader
+package io.dotlottie.loader.converters
 
 import com.squareup.moshi.JsonReader
+import io.dotlottie.loader.DotLottieConverter
+import io.dotlottie.loader.lastSegmentName
 import io.dotlottie.loader.models.DotLottie
-import io.dotlottie.loader.models.DotLottieConverter
 import io.dotlottie.loader.models.Manifest
 import io.dotlottie.loader.models.manifestAdapter
+import io.dotlottie.loader.withoutExt
 import okio.buffer
 import okio.source
 import java.io.InputStream
@@ -19,6 +21,7 @@ class DefaultDotLottieConverter: DotLottieConverter {
 
         var manifest: Manifest? = null
         val animations: HashMap<String, ByteArray> = HashMap()
+        val images: HashMap<String, ByteArray> = HashMap()
 
         inputStream.use {
             var entry: ZipEntry? = it.nextEntry
@@ -30,7 +33,11 @@ class DefaultDotLottieConverter: DotLottieConverter {
                     manifest = manifestAdapter.fromJson(JsonReader.of(it.source().buffer()))
                 } else if(name.startsWith("animations/")) {
                     animations[name.lastSegmentName().withoutExt()] = it.readBytes()
+                } else if(name.startsWith("images/")) {
+                    images[name.lastSegmentName()] = it.readBytes()
                 }
+
+                //todo; handle generic bundled zip (i.e. plain .json and images)
 
                 it.closeEntry()
                 entry = it.nextEntry
@@ -39,7 +46,8 @@ class DefaultDotLottieConverter: DotLottieConverter {
 
         return DotLottie(
             manifest,
-            animations
+            animations,
+            images
         )
 
     }

@@ -1,8 +1,8 @@
 package io.dotlottie.loader
 
 import android.content.Context
+import io.dotlottie.loader.converters.DefaultDotLottieConverter
 import io.dotlottie.loader.models.DotLottie
-import io.dotlottie.loader.models.DotLottieConverter
 import io.dotlottie.loader.models.DotLottieResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

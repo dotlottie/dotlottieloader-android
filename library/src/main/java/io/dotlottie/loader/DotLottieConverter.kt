@@ -1,5 +1,6 @@
-package io.dotlottie.loader.models
+package io.dotlottie.loader
 
+import io.dotlottie.loader.models.DotLottie
 import java.io.InputStream
 import java.util.zip.ZipInputStream
 

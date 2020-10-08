@@ -1,9 +1,12 @@
 package io.dotlottie.sample
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.ImageAssetDelegate
+import com.airbnb.lottie.LottieImageAsset
 import io.dotlottie.loader.DotLottieLoader
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieResult
@@ -44,9 +47,13 @@ class MainActivity : AppCompatActivity() {
         }.load(object: DotLottieResult {
             override fun onSuccess(result: DotLottie) {
                 textTitle.setText(R.string.select_option)
+
+                //set image handler
+                animationView.setImageAssetDelegate(AppImageDelegate.getDelegate(this@MainActivity, result.images))
+
+                // set the animation
                 result.animations?.entries.first()?.let {
                     val input = ByteArrayInputStream(it.value)
-
                     animationView.setAnimation(input as InputStream, null)
                     animationView.playAnimation()
 
