@@ -1,25 +1,43 @@
 package io.dotlottie.loader.defaults
 
+import android.util.LruCache
 import io.dotlottie.loader.DotLottieCache
+import io.dotlottie.loader.DotLottieCacheStrategy
 import io.dotlottie.loader.models.DotLottie
-import io.dotlottie.loader.models.DotLottieCacheStrategy
 
 internal object DefaultDotLottieCache: DotLottieCache{
 
+    val mem_cache = LruCache<String, DotLottie>(10)
 
     override suspend fun fromCache(
         cacheKey: String,
         cacheStrategy: DotLottieCacheStrategy
     ): DotLottie? {
-        TODO("Not yet implemented")
+
+        // thoughts: two level cache to avoid hitting disk?
+        // or do we let diskLRUCache handle it?
+
+        return when(cacheStrategy) {
+            DotLottieCacheStrategy.NONE -> null
+            DotLottieCacheStrategy.DISK,   //todo: implement (for now just memory cache)
+            DotLottieCacheStrategy.MEMORY -> mem_cache.get(cacheKey)
+
+        }
     }
 
     override suspend fun putCache(
         dotLottie: DotLottie,
-        key: String,
+        cacheKey: String,
         cacheStrategy: DotLottieCacheStrategy
     ) {
-        TODO("Not yet implemented")
+        when(cacheStrategy) {
+            DotLottieCacheStrategy.NONE -> {
+                // do nothing?
+            }
+            DotLottieCacheStrategy.DISK, // todo: implement (for now just memory cache)
+            DotLottieCacheStrategy.MEMORY -> mem_cache.put(cacheKey, dotLottie)
+
+        }
     }
 
 

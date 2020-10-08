@@ -16,7 +16,13 @@ class NetworkLoader(context: Context, private val url: String): AbstractLoader(c
         get() = url.lastSegmentName()
 
 
+    override suspend fun getDefaultCacheName(): String = url
+
+    /**
+     * The http client, may be overriden in the factory
+     */
     private var client: OkHttpClient = OkHttpClient()
+
 
     /**
      * set a custom OkHttpClient to passover to
@@ -25,7 +31,6 @@ class NetworkLoader(context: Context, private val url: String): AbstractLoader(c
     fun setClient(overrideClient: OkHttpClient) {
         this.client = overrideClient
     }
-
 
 
     override suspend fun loadInternal(): DotLottie {
