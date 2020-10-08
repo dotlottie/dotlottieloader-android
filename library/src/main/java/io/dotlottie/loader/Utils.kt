@@ -11,6 +11,7 @@ internal fun String.withoutExt() = split(".").first()
 
 /**
  * Determine if an [InputStream] is zip compressed or not
+ * @param autoClose if the [InputStream] should be closed at the end
  */
 internal fun InputStream.isZipCompressed(): Boolean {
     return try {
