@@ -1,12 +1,9 @@
 package io.dotlottie.sample
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.ImageAssetDelegate
-import com.airbnb.lottie.LottieImageAsset
 import io.dotlottie.loader.DotLottieLoader
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieResult
