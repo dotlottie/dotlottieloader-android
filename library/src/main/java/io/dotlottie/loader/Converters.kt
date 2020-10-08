@@ -15,7 +15,6 @@ import java.util.zip.ZipInputStream
 class DefaultDotLottieConverter: DotLottieConverter {
 
 
-
     override fun parseZipInputStream(inputStream: ZipInputStream): DotLottie? {
 
         var manifest: Manifest? = null

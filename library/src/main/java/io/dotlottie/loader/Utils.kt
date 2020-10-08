@@ -5,16 +5,12 @@ import java.io.InputStream
 
 
 internal fun String.lastSegmentName() = split("/").last()
+
 internal fun String.withoutExt() = split(".").first()
 
-/**
- * magic header for .zip files
- */
-private val ZIP_MAGIC = intArrayOf(0x50, 0x4b, 0x03, 0x04)
-
 
 /**
- * Determine if an inputstream is zipcompressed or not
+ * Determine if an [InputStream] is zip compressed or not
  */
 internal fun InputStream.isZipCompressed(): Boolean {
     return try {

@@ -1,7 +1,6 @@
-package io.dotlottie.loader.loaders
+package io.dotlottie.loader
 
 import android.content.Context
-import io.dotlottie.loader.DefaultDotLottieConverter
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieConverter
 import io.dotlottie.loader.models.DotLottieResult
@@ -16,6 +15,12 @@ abstract class AbstractLoader(protected val context: Context) {
 
 
     private var dlConverter: DotLottieConverter = DefaultDotLottieConverter()
+
+
+    /**
+     * get resource entry name for raw resource
+     */
+    protected abstract val fileEntryName: String
 
 
     /**
