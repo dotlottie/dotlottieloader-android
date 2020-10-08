@@ -2,7 +2,6 @@ package io.dotlottie.loader.models
 
 import io.dotlottie.loader.DotLottieCache
 import io.dotlottie.loader.DotLottieCacheStrategy
-import io.dotlottie.loader.defaults.DefaultDotLottieCache
 
 
 /**
@@ -11,6 +10,6 @@ import io.dotlottie.loader.defaults.DefaultDotLottieCache
  * it will be used as the default global config
  */
 public data class DotLottieConfig(
-    val cacheStrategy: DotLottieCacheStrategy = DotLottieCacheStrategy.DISK,
-    val cacheManager: DotLottieCache = DefaultDotLottieCache
+    val cacheStrategy: DotLottieCacheStrategy? = null,
+    val cacheManager: DotLottieCache? = null
 )

@@ -2,6 +2,7 @@ package io.dotlottie.loader
 
 import android.content.Context
 import androidx.annotation.RawRes
+import io.dotlottie.loader.defaults.DefaultDotLottieCache
 import io.dotlottie.loader.loaders.AssetLoader
 import io.dotlottie.loader.loaders.NetworkLoader
 import io.dotlottie.loader.loaders.ResLoader
@@ -42,7 +43,11 @@ class DotLottieLoader private constructor(private val context: Context) {
 
     companion object {
 
-        internal var globalConfig: DotLottieConfig = DotLottieConfig()
+        internal var globalConfig: DotLottieConfig =
+            DotLottieConfig(
+                cacheStrategy = DotLottieCacheStrategy.MEMORY,
+                cacheManager = DefaultDotLottieCache
+            )
 
         /**
          * Factory method to get an instance of the loader

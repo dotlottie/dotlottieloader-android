@@ -1,6 +1,7 @@
 package io.dotlottie.loader
 
 import android.content.Context
+import io.dotlottie.loader.defaults.DefaultDotLottieCache
 import io.dotlottie.loader.defaults.DefaultDotLottieConverter
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieConfig
@@ -60,18 +61,22 @@ abstract class AbstractLoader(protected val context: Context) {
 
                 val key = cacheKey?:getDefaultCacheName()
 
-                val result = dlCallConfig
-                    .cacheManager
-                    .fromCache(key, dlCallConfig.cacheStrategy)
+                // init the cache stuff, fallback to globals
+                // the ugliness because some jackass might've init a global config
+                // with nulls? no but that's on you dude
+                val cacheManager = dlCallConfig.cacheManager
+                    ?:DotLottieLoader.globalConfig.cacheManager
+                    ?:DefaultDotLottieCache
+
+                val cacheStrategy = dlCallConfig.cacheStrategy
+                    ?:DotLottieLoader.globalConfig.cacheStrategy
+                    ?:DotLottieCacheStrategy.MEMORY
+
+                val result = cacheManager
+                    .fromCache(key, cacheStrategy)
                     ?: loadInternal()
                         .apply {
-
-                            // give the cache manager a chance to cache this,
-                            // since it missed the cache on the first run and this
-                            // was loaded and parsed down the stack
-                            dlCallConfig
-                                .cacheManager
-                                .putCache(this, key, dlCallConfig.cacheStrategy)
+                            cacheManager.putCache(this, key, cacheStrategy)
                         }
 
                 launch(Dispatchers.Main){ listener.onSuccess(result) }
