@@ -61,6 +61,7 @@ class DotLottieLoader private constructor(private val context: Context) {
          * This can be different from the call specific
          * configurations
          */
+        @JvmStatic
         fun setConfig(configuration: DotLottieConfig) {
             globalConfig = configuration
         }
