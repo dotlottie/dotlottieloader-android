@@ -23,19 +23,21 @@ abstract class AppResourceLoader (context: Context): AbstractLoader(context) {
     /**
      * open and parse app internal resources
      */
-    private fun parseResFileSpec(): DotLottie? =
+    private suspend fun parseResFileSpec(): DotLottie? =
         when (resInputStream.isZipCompressed()) {
             true -> parseZipInputStream(resInputStream)
             false -> parseInputStream(resInputStream)
         }
 
 
-    override fun loadInternal(): DotLottie {
-        parseResFileSpec()?.let {
-            return it
-        }
+    override suspend fun loadInternal(): DotLottie {
+        val res = parseResFileSpec()
 
-        throw IllegalArgumentException("Unable to parse resource")
+        // throw exception if we're not done
+        if(res!=null)
+            return res
+        else
+            throw IllegalArgumentException("Unable to parse resource")
     }
 }
 

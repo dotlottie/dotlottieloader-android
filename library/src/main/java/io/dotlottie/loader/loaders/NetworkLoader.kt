@@ -24,7 +24,7 @@ class NetworkLoader(context: Context, private val url: String): AbstractLoader(c
 
 
 
-    override fun loadInternal(): DotLottie {
+    override suspend fun loadInternal(): DotLottie {
         TODO("Not yet implemented")
     }
 

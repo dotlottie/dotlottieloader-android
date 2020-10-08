@@ -4,6 +4,9 @@ import android.content.Context
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieConverter
 import io.dotlottie.loader.models.DotLottieResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.zip.ZipInputStream
 
@@ -36,11 +39,13 @@ abstract class AbstractLoader(protected val context: Context) {
      * pass up the result
      */
     fun load(listener: DotLottieResult) {
-        try {
-            val result = loadInternal()
-            listener.onSuccess(result)
-        } catch (e: Exception) {
-            listener.onError(e)
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val result = loadInternal()
+                launch(Dispatchers.Main){ listener.onSuccess(result) }
+            } catch (e: Exception) {
+                launch(Dispatchers.Main){ listener.onError(e) }
+            }
         }
     }
 
@@ -48,7 +53,7 @@ abstract class AbstractLoader(protected val context: Context) {
     /**
      * internal loader function to be overridden
      */
-    protected abstract fun loadInternal(): DotLottie
+    protected abstract suspend fun loadInternal(): DotLottie
 
 
     /**
