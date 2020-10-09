@@ -3,6 +3,7 @@ package io.dotlottie.loader
 import android.content.Context
 import androidx.annotation.RawRes
 import io.dotlottie.loader.defaults.DefaultDotLottieCache
+import io.dotlottie.loader.defaults.DefaultDotLottieConverter
 import io.dotlottie.loader.loaders.AssetLoader
 import io.dotlottie.loader.loaders.NetworkLoader
 import io.dotlottie.loader.loaders.ResLoader
@@ -15,18 +16,13 @@ import io.dotlottie.loader.models.DotLottieConfig
 class DotLottieLoader private constructor(private val context: Context) {
 
 
-
-    /*
-     * ----- The stuff below are mostly Builder methods ----
-     */
-
-
     /**
      * loads animation from assets
      * might throw [java.io.IOException]
      */
     fun fromAsset(assetName: String) = AssetLoader(context, assetName)
 
+    // note to future self: Do we not like kotlin delegates?
 
     /**
      * loads animation from raw resource
@@ -45,8 +41,9 @@ class DotLottieLoader private constructor(private val context: Context) {
 
         internal var globalConfig: DotLottieConfig =
             DotLottieConfig(
-                cacheStrategy = DotLottieCacheStrategy.MEMORY,
-                cacheManager = DefaultDotLottieCache
+                cacheStrategy = DotLottieCacheStrategy.DISK,
+                cacheManager = DefaultDotLottieCache,
+                converter = DefaultDotLottieConverter()
             )
 
         /**

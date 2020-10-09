@@ -19,36 +19,40 @@ import java.util.zip.ZipInputStream
 abstract class AbstractLoader(protected val context: Context) {
 
 
-    private var dlConverter: DotLottieConverter = DefaultDotLottieConverter()
-
     /**
      * Configuration. Either per instance or default to global
      * config set via [DotLottieLoader.setConfig]
      */
     private var dlCallConfig: DotLottieConfig = DotLottieLoader.globalConfig
 
-    /**
-     * get resource entry name for raw resource
-     */
-    protected abstract val fileEntryName: String
-
 
     /**
-     * set a custom [DotLottieConverter] to parse
-     * results of this request
-     */
-    fun withConverter(converter: DotLottieConverter) {
-        dlConverter = converter
-    }
-
-
-    /**
-     * set a custom configuration
+     * Factory method to set a custom configuration
      * for this request only
      */
     fun withConfig(config: DotLottieConfig) {
         dlCallConfig = config
     }
+
+
+    // accessors to cache stuff, fallback to globals
+    // the ugliness because some jackass might've init a global config
+    // with nulls? no but that's on you dude
+    private val cacheManager: DotLottieCache
+        get() = dlCallConfig.cacheManager
+            ?:DotLottieLoader.globalConfig.cacheManager
+            ?:DefaultDotLottieCache
+
+    private val cacheStrategy: DotLottieCacheStrategy
+        get() = dlCallConfig.cacheStrategy
+            ?:DotLottieLoader.globalConfig.cacheStrategy
+            ?:DotLottieCacheStrategy.DISK
+
+    private val converter: DotLottieConverter
+        get() = dlCallConfig.converter
+            ?: DotLottieLoader.globalConfig.converter
+            ?: DefaultDotLottieConverter()
+
 
 
     /**
@@ -60,17 +64,6 @@ abstract class AbstractLoader(protected val context: Context) {
             try {
 
                 val key = cacheKey?:getDefaultCacheName()
-
-                // init the cache stuff, fallback to globals
-                // the ugliness because some jackass might've init a global config
-                // with nulls? no but that's on you dude
-                val cacheManager = dlCallConfig.cacheManager
-                    ?:DotLottieLoader.globalConfig.cacheManager
-                    ?:DefaultDotLottieCache
-
-                val cacheStrategy = dlCallConfig.cacheStrategy
-                    ?:DotLottieLoader.globalConfig.cacheStrategy
-                    ?:DotLottieCacheStrategy.MEMORY
 
                 val result = cacheManager
                     .fromCache(key, cacheStrategy)
@@ -89,6 +82,12 @@ abstract class AbstractLoader(protected val context: Context) {
 
 
     /**
+     * get resource entry name for raw resource
+     */
+    protected abstract val fileEntryName: String
+
+
+    /**
      * internal loader function to be overridden
      */
     protected abstract suspend fun loadInternal(): DotLottie
@@ -104,14 +103,14 @@ abstract class AbstractLoader(protected val context: Context) {
      * parse input stream
      */
     protected fun parseInputStream(inputStream: InputStream): DotLottie? =
-        dlConverter.parseFileInputStream(inputStream)
+        converter.parseFileInputStream(inputStream)
 
 
     /**
      * parse zip input stream
      */
     protected fun parseZipInputStream(inputStream: InputStream): DotLottie? =
-        dlConverter.parseZipInputStream(ZipInputStream(inputStream))
+        converter.parseZipInputStream(ZipInputStream(inputStream))
 
 
 }

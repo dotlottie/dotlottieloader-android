@@ -1,13 +1,15 @@
 package io.dotlottie.loader.defaults
 
-import android.util.LruCache
+import android.content.Context
+import androidx.collection.LruCache
 import io.dotlottie.loader.DotLottieCache
 import io.dotlottie.loader.DotLottieCacheStrategy
 import io.dotlottie.loader.models.DotLottie
 
 internal object DefaultDotLottieCache: DotLottieCache{
 
-    val mem_cache = LruCache<String, DotLottie>(10)
+    val memoryCache = LruCache<String, DotLottie>(10)
+
 
     override suspend fun fromCache(
         cacheKey: String,
@@ -19,9 +21,8 @@ internal object DefaultDotLottieCache: DotLottieCache{
 
         return when(cacheStrategy) {
             DotLottieCacheStrategy.NONE -> null
-            DotLottieCacheStrategy.DISK,   //todo: implement (for now just memory cache)
-            DotLottieCacheStrategy.MEMORY -> mem_cache.get(cacheKey)
-
+            DotLottieCacheStrategy.DISK, //todo: implement (just memory cache rn)
+            DotLottieCacheStrategy.MEMORY -> memoryCache.get(cacheKey)
         }
     }
 
@@ -31,14 +32,10 @@ internal object DefaultDotLottieCache: DotLottieCache{
         cacheStrategy: DotLottieCacheStrategy
     ) {
         when(cacheStrategy) {
-            DotLottieCacheStrategy.NONE -> {
-                // do nothing?
-            }
+            DotLottieCacheStrategy.NONE -> {}
             DotLottieCacheStrategy.DISK, // todo: implement (for now just memory cache)
-            DotLottieCacheStrategy.MEMORY -> mem_cache.put(cacheKey, dotLottie)
-
+            DotLottieCacheStrategy.MEMORY -> memoryCache.put(cacheKey, dotLottie)
         }
     }
-
 
 }

@@ -2,6 +2,7 @@ package io.dotlottie.loader.models
 
 import io.dotlottie.loader.DotLottieCache
 import io.dotlottie.loader.DotLottieCacheStrategy
+import io.dotlottie.loader.DotLottieConverter
 
 
 /**
@@ -11,5 +12,6 @@ import io.dotlottie.loader.DotLottieCacheStrategy
  */
 public data class DotLottieConfig(
     val cacheStrategy: DotLottieCacheStrategy? = null,
-    val cacheManager: DotLottieCache? = null
+    val cacheManager: DotLottieCache? = null,
+    val converter: DotLottieConverter? = null
 )
