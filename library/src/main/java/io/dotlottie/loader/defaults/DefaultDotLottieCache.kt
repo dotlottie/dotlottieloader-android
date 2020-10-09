@@ -8,7 +8,7 @@ import io.dotlottie.loader.models.DotLottie
 
 internal object DefaultDotLottieCache: DotLottieCache{
 
-    val memoryCache = LruCache<String, DotLottie>(10)
+    private val memoryCache = LruCache<String, DotLottie>(10)
 
 
     override suspend fun fromCache(
