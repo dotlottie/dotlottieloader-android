@@ -1,6 +1,5 @@
 package io.dotlottie.loader.defaults
 
-import android.content.Context
 import androidx.collection.LruCache
 import io.dotlottie.loader.DotLottieCache
 import io.dotlottie.loader.DotLottieCacheStrategy
