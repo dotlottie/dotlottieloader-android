@@ -35,9 +35,13 @@ class DefaultDotLottieConverter: DotLottieConverter {
                     animations[name.lastSegmentName().withoutExt()] = it.readBytes()
                 } else if(name.startsWith("images/")) {
                     images[name.lastSegmentName()] = it.readBytes()
-                }
 
-                //todo; handle generic bundled zip (i.e. plain .json and images)
+                // for regular zip, in a separate block here for readability and stuff
+                } else if (name.contains(".json")) {
+                    animations[name.lastSegmentName().withoutExt()] = it.readBytes()
+                } else if (name.contains(".png") || name.contains(".webp")) {
+                    images[name.lastSegmentName()] = it.readBytes()
+                }
 
                 it.closeEntry()
                 entry = it.nextEntry
@@ -52,8 +56,23 @@ class DefaultDotLottieConverter: DotLottieConverter {
 
     }
 
-    override fun parseFileInputStream(inputStream: InputStream): DotLottie? {
-        TODO("Not yet implemented")
+    override fun parseFileInputStream(inputStream: InputStream, entryName: String): DotLottie? {
+
+        val manifest: Manifest? = null
+        val animations: HashMap<String, ByteArray> = HashMap()
+        val images: HashMap<String, ByteArray> = HashMap()
+
+        animations[entryName.lastSegmentName().withoutExt()] = inputStream.readBytes()
+
+        // return a blank dotLottie,
+        // with only one animation
+
+        return DotLottie(
+            manifest,
+            animations,
+            images
+        )
+
     }
 
 }

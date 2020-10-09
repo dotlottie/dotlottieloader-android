@@ -15,5 +15,5 @@ interface DotLottieConverter {
      * parse a file entry (a .json)
      * throw an exception on failure
      */
-    fun parseFileInputStream(inputStream: InputStream): DotLottie?
+    fun parseFileInputStream(inputStream: InputStream, entryName: String): DotLottie?
 }

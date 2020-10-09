@@ -57,7 +57,7 @@ class AssetLoader(context: Context, private val assetName: String)
         get() = assetName.lastSegmentName()
 
 
-    override suspend fun getDefaultCacheName(): String = assetName
+    override suspend fun getDefaultCacheName(): String = "asset_${assetName}"
 
 }
 
@@ -77,6 +77,6 @@ class ResLoader(context: Context, @RawRes private val resId: Int)
         get() = context.resources.getResourceEntryName(resId)
 
 
-    override suspend fun getDefaultCacheName(): String = fileEntryName
+    override suspend fun getDefaultCacheName(): String = "res_${fileEntryName}"
 
 }
