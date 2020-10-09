@@ -17,7 +17,7 @@ import java.util.zip.ZipInputStream
 class DefaultDotLottieConverter: DotLottieConverter {
 
 
-    override fun parseZipInputStream(inputStream: ZipInputStream): DotLottie? {
+    override suspend fun parseZipInputStream(inputStream: ZipInputStream): DotLottie? {
 
         var manifest: Manifest? = null
         val animations: HashMap<String, ByteArray> = HashMap()
@@ -56,7 +56,7 @@ class DefaultDotLottieConverter: DotLottieConverter {
 
     }
 
-    override fun parseFileInputStream(inputStream: InputStream, entryName: String): DotLottie? {
+    override suspend fun parseFileInputStream(inputStream: InputStream, entryName: String): DotLottie? {
 
         val manifest: Manifest? = null
         val animations: HashMap<String, ByteArray> = HashMap()

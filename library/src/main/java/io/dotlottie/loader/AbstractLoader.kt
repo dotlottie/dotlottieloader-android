@@ -102,14 +102,14 @@ abstract class AbstractLoader(protected val context: Context) {
     /**
      * parse input stream
      */
-    protected fun parseInputStream(inputStream: InputStream): DotLottie? =
+    protected suspend fun parseInputStream(inputStream: InputStream): DotLottie? =
         converter.parseFileInputStream(inputStream, fileEntryName)
 
 
     /**
      * parse zip input stream
      */
-    protected fun parseZipInputStream(inputStream: InputStream): DotLottie? =
+    protected suspend fun parseZipInputStream(inputStream: InputStream): DotLottie? =
         converter.parseZipInputStream(ZipInputStream(inputStream))
 
 
