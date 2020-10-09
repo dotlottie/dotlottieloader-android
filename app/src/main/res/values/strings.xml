@@ -10,4 +10,5 @@
     <string name="select_option">Select Option</string>
     <string name="loading_anim">Loading Animation</string>
     <string name="error_loading">Error while loading animation</string>
+    <string name="option_simplejson">.json</string>
 </resources>

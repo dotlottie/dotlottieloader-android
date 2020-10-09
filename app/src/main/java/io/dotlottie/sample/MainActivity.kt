@@ -70,18 +70,22 @@ class MainActivity : AppCompatActivity() {
     private fun getSelectedItemURL() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> "https://dotlottie.io/sample_files/animation-external-image.lottie"
         R.id.anim_internal -> "https://dotlottie.io/sample_files/animation-inline-image.lottie"
+        R.id.anim_json -> "https://assets9.lottiefiles.com/packages/lf20_z01atlv1.json"
         else -> "https://dotlottie.io/sample_files/animation.lottie"
     }
+
 
     private fun getSelectedRawRes() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> R.raw.animation_external_image
         R.id.anim_internal -> R.raw.animation_inline_image
+        R.id.anim_json -> R.raw.simplejson
         else -> R.raw.animation
     }
 
     private fun getSelectedItemAsset() = when (radiogroupAnimationType.checkedRadioButtonId){
         R.id.anim_external -> "animation_external_image.lottie"
         R.id.anim_internal -> "animation_inline_image.lottie"
+        R.id.anim_json -> "simplejson.json"
         else -> "animation.lottie"
     }
 
