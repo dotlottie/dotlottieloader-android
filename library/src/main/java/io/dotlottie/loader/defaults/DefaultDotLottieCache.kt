@@ -3,6 +3,7 @@ package io.dotlottie.loader.defaults
 import android.content.Context
 import androidx.collection.LruCache
 import com.jakewharton.disklrucache.DiskLruCache
+import io.dotlottie.loader.BuildConfig
 import io.dotlottie.loader.DotLottieCache
 import io.dotlottie.loader.DotLottieCacheStrategy
 import io.dotlottie.loader.md5
@@ -28,7 +29,9 @@ internal object DefaultDotLottieCache: DotLottieCache{
                     dir.mkdirs()
 
                 diskCache = DiskLruCache.open(
-                    dir, 1, 1,
+                    dir,
+                    BuildConfig.VERSION_CODE,
+                    1,
                     1024 * 1024 * 20 //20mb
                 )
             } catch (e: Exception) {
