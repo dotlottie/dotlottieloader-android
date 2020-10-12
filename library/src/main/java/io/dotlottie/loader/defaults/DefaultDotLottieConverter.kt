@@ -7,7 +7,6 @@ import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.Manifest
 import io.dotlottie.loader.models.manifestAdapter
 import io.dotlottie.loader.withoutExt
-import kotlinx.coroutines.runBlocking
 import okio.buffer
 import okio.source
 import java.io.InputStream
