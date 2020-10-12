@@ -1,6 +1,7 @@
 package io.dotlottie.loader
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import io.dotlottie.loader.defaults.DefaultDotLottieCache
 import io.dotlottie.loader.defaults.DefaultDotLottieConverter
 import io.dotlottie.loader.models.DotLottie
@@ -9,6 +10,7 @@ import io.dotlottie.loader.models.DotLottieResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.util.zip.ZipInputStream
 
@@ -60,24 +62,29 @@ abstract class AbstractLoader(protected val context: Context) {
      * pass up the result
      */
     fun load(listener: DotLottieResult, cacheKey:String? = null) {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
 
-                val key = cacheKey?:getDefaultCacheName()
+        (context.lifecycleOwner()?.lifecycleScope ?:GlobalScope)
+            .launch(Dispatchers.IO) {
+                try {
 
-                val result = cacheManager
-                    .fromCache(key, cacheStrategy)
-                    ?: loadInternal()
-                        .apply {
-                            cacheManager.putCache(this, key, cacheStrategy)
-                        }
+                    val key = cacheKey?:getDefaultCacheName()
+                    val result = cacheManager
+                        .fromCache(key, cacheStrategy)
+                        ?: loadInternal()
+                            .apply {
+                                cacheManager.putCache(this, key, cacheStrategy)
+                            }
 
-                launch(Dispatchers.Main){ listener.onSuccess(result) }
+                    // update on UI
+                    withContext(Dispatchers.Main) {
+                        listener.onSuccess(result)
+                    }
 
-            } catch (e: Exception) {
-                launch(Dispatchers.Main){ listener.onError(e) }
+                } catch (e: Exception) {
+
+                    withContext(Dispatchers.Main) { listener.onError(e) }
+                }
             }
-        }
     }
 
 
