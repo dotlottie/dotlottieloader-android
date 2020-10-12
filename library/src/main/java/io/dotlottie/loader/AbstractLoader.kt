@@ -33,7 +33,9 @@ abstract class AbstractLoader(protected val context: Context) {
      * for this request only
      */
     fun withConfig(config: DotLottieConfig) {
-        dlCallConfig = config
+        dlCallConfig = config.apply {
+            cacheManager?.initialize(context)
+        }
     }
 
 
@@ -43,7 +45,7 @@ abstract class AbstractLoader(protected val context: Context) {
     private val cacheManager: DotLottieCache
         get() = dlCallConfig.cacheManager
             ?:DotLottieLoader.globalConfig.cacheManager
-            ?:DefaultDotLottieCache
+            ?:DefaultDotLottieCache.apply { initialize(context) }
 
     private val cacheStrategy: DotLottieCacheStrategy
         get() = dlCallConfig.cacheStrategy

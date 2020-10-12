@@ -15,7 +15,6 @@ import io.dotlottie.loader.models.DotLottieConfig
  */
 class DotLottieLoader private constructor(private val context: Context) {
 
-
     /**
      * loads animation from assets
      * might throw [java.io.IOException]
@@ -51,7 +50,11 @@ class DotLottieLoader private constructor(private val context: Context) {
          * @param context context for this instantiation
          */
         @JvmStatic
-        fun with(context: Context):DotLottieLoader = DotLottieLoader(context)
+        fun with(context: Context):DotLottieLoader {
+            // initialize cache-manager if there is one
+            globalConfig.cacheManager?.initialize(context)
+            return DotLottieLoader(context)
+        }
 
         /**
          * Exposed setter to alter the global configuration.

@@ -2,6 +2,7 @@ package io.dotlottie.loader.models
 
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
+import java.io.Serializable
 
 
 internal val moshi by lazy {
@@ -26,7 +27,7 @@ data class Manifest(
     val author: String,
     val animations: List<ManifestAnimation>,
     val custom: Map<String, Any>?
-)
+): Serializable
 
 /**
  * Animation spec as declared in the [Manifest].
@@ -38,7 +39,7 @@ data class ManifestAnimation(
     val speed: Float = 1.0f,
     val themeColor: String?,
     val loop: Boolean = false
-)
+): Serializable
 
 /**
  * A DotLottie file
@@ -52,4 +53,4 @@ data class DotLottie(
     //js
     //resources
     //previews
-)
+): Serializable

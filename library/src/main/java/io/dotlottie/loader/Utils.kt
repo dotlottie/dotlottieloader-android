@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import androidx.lifecycle.LifecycleOwner
 import java.io.IOException
 import java.io.InputStream
+import java.security.MessageDigest
 
 
 internal fun String.lastSegmentName() = split("/").last()
@@ -44,3 +45,13 @@ fun Context.lifecycleOwner(): LifecycleOwner? {
         null
     }
 }
+
+
+
+val String.md5: String
+    get() {
+        val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+        return bytes.joinToString("") {
+            "%02x".format(it)
+        }
+    }
