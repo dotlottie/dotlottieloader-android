@@ -1,10 +1,5 @@
 # dotLottieLoader
 
-[![CI Status](https://img.shields.io/travis/eharrison/dotLottieLoader.svg?style=flat)](https://travis-ci.org/eharrison/dotLottieLoader)
-[![Version](https://img.shields.io/cocoapods/v/dotLottieLoader.svg?style=flat)](https://cocoapods.org/pods/dotLottieLoader)
-[![License](https://img.shields.io/cocoapods/l/dotLottieLoader.svg?style=flat)](https://cocoapods.org/pods/dotLottieLoader)
-[![Platform](https://img.shields.io/cocoapods/p/dotLottieLoader.svg?style=flat)](https://cocoapods.org/pods/dotLottieLoader)
-
 ## Introducing dotLottie
 
 <p align="center">
