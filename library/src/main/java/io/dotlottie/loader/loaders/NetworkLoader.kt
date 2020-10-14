@@ -28,8 +28,9 @@ class NetworkLoader(context: Context, private val url: String): AbstractLoader(c
      * set a custom OkHttpClient to passover to
      * the NetworkFetcher
      */
-    fun setClient(overrideClient: OkHttpClient) {
+    fun withClient(overrideClient: OkHttpClient): NetworkLoader {
         this.client = overrideClient
+        return this
     }
 
 
