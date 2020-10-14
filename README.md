@@ -89,7 +89,7 @@ for example, using it with lottie-android:
 ```kotlin
 DotLottieLoader.with(this)
     .fromUrl(item)
-    load(object: DotLottieResult {
+    .load(object: DotLottieResult {
         override fun onSuccess(result: DotLottie) {
 
             //set image handler. Check example app for 
@@ -116,7 +116,8 @@ DotLottieLoader.with(this)
         override fun onError(throwable: Throwable) {
             Toast.makeText(this@MainActivity, R.string.error_loading, Toast.LENGTH_LONG).show()
             throwable.printStackTrace()
-    }
+        }
+    })
 ```
 
 
