@@ -55,8 +55,9 @@ internal object DefaultDotLottieCache: DotLottieCache{
             DotLottieCacheStrategy.NONE -> null
             DotLottieCacheStrategy.MEMORY -> memoryCache.get(cacheKey)
             DotLottieCacheStrategy.DISK -> {
+
                 //hit
-                memoryCache.get(cacheKey)?.let { return it }
+//                memoryCache.get(cacheKey)?.let { return it }
 
                 //miss
                 diskCache?.get(diskkey)?.let {
@@ -64,7 +65,7 @@ internal object DefaultDotLottieCache: DotLottieCache{
                     (ObjectInputStream(it.getInputStream(0))
                         ?.readObject() as DotLottie)
                         ?.let {
-                            memoryCache.put(cacheKey, it)
+//                            memoryCache.put(cacheKey, it)
                             return it
                         }
 
@@ -86,7 +87,7 @@ internal object DefaultDotLottieCache: DotLottieCache{
             DotLottieCacheStrategy.MEMORY -> memoryCache.put(cacheKey, dotLottie)
             DotLottieCacheStrategy.DISK -> {
                 //layer 1
-                memoryCache.put(cacheKey, dotLottie)
+//                memoryCache.put(cacheKey, dotLottie)
 
                 // flush it
                 diskCache?.get(diskkey)?.let { diskCache?.remove(diskkey) }
