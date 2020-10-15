@@ -1,5 +1,8 @@
 # dotLottieLoader
 
+[![](https://jitpack.io/v/dotlottie/dotlottieloader-android.svg)](https://jitpack.io/#dotlottie/dotlottieloader-android)
+
+
 ## Introducing dotLottie
 
 <p align="center">
@@ -22,7 +25,25 @@ To run the example project, clone the repo, and the sample app
 
 ## Installation
 
-TBD
+Install via Jitpack
+
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+```gradle
+dependencies {
+    ...
+    implementation 'com.github.dotlottie:dotlottieloader-android:{version}'
+}
+```
+
+[![](https://jitpack.io/v/dotlottie/dotlottieloader-android.svg)](https://jitpack.io/#dotlottie/dotlottieloader-android)
 
 ## Using dotLottie
 
