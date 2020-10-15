@@ -71,7 +71,7 @@ DotLottieLoader.with(context).fromRaw(rawResID).load(...)
 
 Load from assets
 ```kotlin
-DotLottieLoader.with(context).fromRaw(rawResID).load(...)
+DotLottieLoader.with(context).fromAsset(assetName).load(...)
 ```
 
 #### Using the DotLottie
