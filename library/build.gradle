@@ -2,19 +2,25 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
+
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    def buildVersion = 1
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 1
+        versionCode buildVersion
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField 'int', 'LIBRARY_VERSION',  "$buildVersion"
+
     }
 
     buildTypes {
@@ -25,6 +31,7 @@ android {
     }
 
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

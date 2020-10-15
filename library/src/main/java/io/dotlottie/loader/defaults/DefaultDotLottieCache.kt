@@ -30,7 +30,7 @@ internal object DefaultDotLottieCache: DotLottieCache{
 
                 diskCache = DiskLruCache.open(
                     dir,
-                    BuildConfig.VERSION_CODE,
+                    BuildConfig.LIBRARY_VERSION,
                     1,
                     1024 * 1024 * 20 //20mb
                 )
