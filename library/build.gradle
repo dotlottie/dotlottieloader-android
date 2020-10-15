@@ -2,7 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'maven-publish'
+
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.dotlottie'
 
 def buildVersion = 1
 def buildName = "1.0"
@@ -15,7 +17,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
         versionCode buildVersion
-        versionName "1.0"
+        versionName buildName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,18 +33,6 @@ android {
     }
 
 }
-
-publishing {
-    publications {
-        libraryPublication(MavenPublication) {
-            groupId 'io.dotlottie.loader'
-            version buildName
-            artifactId 'library'
-            artifact("$buildDir/outputs/aar/library.aar")
-        }
-    }
-}
-
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
