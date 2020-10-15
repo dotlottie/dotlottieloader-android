@@ -76,7 +76,7 @@ DotLottieLoader.with(context).fromRaw(rawResID).load(...)
 
 #### Using the DotLottie
 
-```
+```kotlin
 data class DotLottie(
     val manifest: Manifest?,
     val animations: Map<String, ByteArray>,
@@ -160,7 +160,8 @@ The library provides some configuration options to customize its behavior
 #### Per request configurations
 
 You may also pass a `DotLottieConfig` object per request by using
-```
+
+```kotlin
 DotLottieLoader.with(context)
     .fromUrl(lottieUrl)
     .withConfig(DotLottieConfig(
@@ -170,7 +171,7 @@ DotLottieLoader.with(context)
 
 When requesting from the network, an additional configuration is exposed to override the OkHttpClient used for the request
 
-```
+```kotlin
 DotLottieLoader.with(this)
     .fromUrl(lottieUrl)
     .withClient(customOkHttpClient)
