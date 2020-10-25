@@ -30,7 +30,11 @@ class DefaultDotLottieConverter: DotLottieConverter {
                 // parse the manifest
                 val name = entry.name
                 if(name.equals("manifest.json", ignoreCase = true)) {
-                    manifest = manifestAdapter.fromJson(JsonReader.of(it.source().buffer()))
+                    try {
+                        manifest = manifestAdapter.fromJson(JsonReader.of(it.source().buffer()))
+                    } catch (e: Exception) {
+                        //skip it because ooof
+                    }
                 } else if(name.startsWith("animations/")) {
                     animations[name.lastSegmentName().withoutExt()] = it.readBytes()
                 } else if(name.startsWith("images/")) {
