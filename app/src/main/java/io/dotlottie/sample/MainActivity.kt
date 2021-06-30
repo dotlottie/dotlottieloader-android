@@ -1,19 +1,25 @@
 package io.dotlottie.sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
 import io.dotlottie.loader.DotLottieLoader
+import io.dotlottie.loader.compress
 import io.dotlottie.loader.models.DotLottie
 import io.dotlottie.loader.models.DotLottieResult
 import io.dotlottie.sample.databinding.ActivityMainBinding
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var currentAnim: DotLottie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.buttonLoad.setOnClickListener { loadAnimation() }
+        binding.buttonShare.setOnClickListener { onShare() }
 
     }
 
@@ -47,6 +54,8 @@ class MainActivity : AppCompatActivity() {
             }
         }.load(object: DotLottieResult {
             override fun onSuccess(result: DotLottie) {
+
+                currentAnim = result
                 binding.textTitle.setText(R.string.select_option)
 
                 //set image handler
@@ -69,6 +78,37 @@ class MainActivity : AppCompatActivity() {
                 throwable.printStackTrace()
             }
         })
+    }
+
+    private fun onShare() {
+        currentAnim?.let {
+
+            // export the current anim to a .lottie
+            val f = File.createTempFile("share",".lottie", cacheDir)
+            f.writeBytes(it.compress(
+                true,
+                "#ffffff",
+                1.0f,
+                1.0f,
+                1,
+                "OverrideAuthor",
+                "Override Generator"
+            ))
+
+
+
+            // now share it?
+            val uri = FileProvider.getUriForFile(this, "io.dotlottie.sample.provider", f)
+            ShareCompat.IntentBuilder(this)
+                .setType("application/x-zip")
+                .setSubject("Sharing dotLottie")
+                .setStream(uri)
+                .setChooserTitle("Share dotLottie")
+                .createChooserIntent()
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .also { startActivity(it) }
+
+        }
     }
 
     private fun getSelectedItemURL() = when (binding.radiogroupAnimationType.checkedRadioButtonId){

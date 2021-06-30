@@ -109,8 +109,18 @@
         android:id="@+id/buttonLoad"
         style="@style/Widget.AppCompat.Button.Colored"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/buttonShare"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/load" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/buttonShare"
+        app:srcCompat="@drawable/ic_baseline_share_24"
+        style="@style/Widget.AppCompat.Button.Colored"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/load" />
