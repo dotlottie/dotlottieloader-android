@@ -8,6 +8,7 @@ import io.dotlottie.loader.models.Manifest
 import io.dotlottie.loader.models.ManifestAnimation
 import io.dotlottie.loader.models.manifestAdapter
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest

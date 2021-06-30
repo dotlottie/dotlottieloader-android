@@ -85,22 +85,25 @@ class MainActivity : AppCompatActivity() {
 
             // export the current anim to a .lottie
             val f = File.createTempFile("share",".lottie", cacheDir)
-            f.writeBytes(it.compress(
-                true,
-                "#ffffff",
-                1.0f,
-                1.0f,
-                1,
-                "OverrideAuthor",
-                "Override Generator"
-            ))
+//            f.deleteOnExit()
+            f.writeBytes(
+                it.compress(
+                    true,
+                    "#ffffff",
+                    1.0f,
+                    1.0f,
+                    1,
+                    "OverrideAuthor",
+                    "Override Generator"
+                )
+            )
 
 
 
             // now share it?
             val uri = FileProvider.getUriForFile(this, "io.dotlottie.sample.provider", f)
             ShareCompat.IntentBuilder(this)
-                .setType("application/x-zip")
+                .setType("application/*")
                 .setSubject("Sharing dotLottie")
                 .setStream(uri)
                 .setChooserTitle("Share dotLottie")
