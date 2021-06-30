@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
             // export the current anim to a .lottie
             val f = File.createTempFile("share",".lottie", cacheDir)
+
 //            f.deleteOnExit()
             f.writeBytes(
                 it.compress(
