@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.dotlottie'
 
-def buildVersion = 1
-def buildName = "1.0"
+def buildVersion = 2
+def buildName = "1.1"
 
 android {
     compileSdkVersion 30
