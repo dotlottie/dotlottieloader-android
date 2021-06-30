@@ -142,7 +142,7 @@ We can export a `DotLottie` object to disk using the .compress() method.
 If the original animation provided a manifest, it will be retain, otherwise
 a new manifest with defaults (or provided defaults) will be generated
 
-```
+```kotlin
     val f = File(cacheDir, "example.lottie")
     val exported = myDotLottie.compress(loop = true, themeColor = "#dedede")
     f.writeBytes(exported)
