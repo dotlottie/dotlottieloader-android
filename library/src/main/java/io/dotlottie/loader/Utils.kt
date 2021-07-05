@@ -68,8 +68,15 @@ val String.md5: String
 
 
 private fun ZipOutputStream.putByteEntry(s: String, bytes: ByteArray) {
-    putNextEntry(ZipEntry(s))
+    // create entry
+    val entry = ZipEntry(s)
+    entry.size = bytes.size.toLong()
+
+    //write entry
+    putNextEntry(entry)
     write(bytes)
+
+    // close entry and return
     closeEntry()
 }
 
