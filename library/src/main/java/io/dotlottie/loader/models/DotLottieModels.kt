@@ -2,6 +2,7 @@ package io.dotlottie.loader.models
 
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
+import io.dotlottie.loader.BuildConfig
 import java.io.Serializable
 
 
@@ -13,6 +14,8 @@ internal val moshi by lazy {
 internal val manifestAdapter by lazy {
     moshi.adapter(Manifest::class.java)
 }
+
+
 
 /**
  * The manifest for a dotLottie
